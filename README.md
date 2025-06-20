@@ -12,3 +12,30 @@ New York City receives over 3 million service requests annually through its 311 
 - **Source**: [NYC Open Data - 311 Service Requests from 2010 to Present](https://dev.socrata.com/foundry/data.cityofnewyork.us/erm2-nwe9)
 - **Scale**: 24+ million records, 41 columns, updated daily
 - **Coverage**: All 5 boroughs, 200+ complaint types, 50+ agencies
+
+## 📡 Data Upload — API Ingest to PostgreSQL
+
+Fetching real-time data from a public API (NYC 311 Service Requests) and store it into a PostgreSQL database using Python.
+
+## 🚀 Objective
+
+To build a repeatable, automated pipeline that:
+- Pulls complaint data from the NYC Open Data API (`erm2-nwe9`)
+- Cleans and prepares the data
+- Inserts it into a structured PostgreSQL table for further analysis or reporting
+
+---
+
+## ⚙️ Tech Stack
+
+| Tool | Purpose |
+|------|---------|
+| Python | Core scripting language |
+| Requests | Fetch data from REST API |
+| Pandas | Handle JSON, clean and structure data |
+| SQLAlchemy | Connect and push data into PostgreSQL |
+| PostgreSQL | Data storage layer |
+
+---
+
+
