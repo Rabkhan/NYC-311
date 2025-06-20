@@ -38,4 +38,22 @@ To build a repeatable, automated pipeline that:
 
 ---
 
+## 🔁 Process
+
+1. **API Connection**
+   - Used NYC Open Data’s Socrata endpoint
+   - Applied a `$where=created_date >= [last 7 days]` filter to avoid pulling all historical data
+
+2. **Data Cleaning**
+   - Used `pandas.json_normalize()` to flatten nested fields like `location`
+   - Handled missing columns by adding `None` values for expected fields
+
+3. **Database Insert**
+   - Connected to PostgreSQL using SQLAlchemy:
+     ```python
+     engine = create_engine("postgresql+psycopg2://postgres:9890@localhost:5432/nyc_data")
+     ```
+   - Used `df.to_sql(..., if_exists="append")` to push data without overwriting the table
+
+
 
