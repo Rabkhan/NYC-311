@@ -55,5 +55,11 @@ To build a repeatable, automated pipeline that:
      ```
    - Used `df.to_sql(..., if_exists="append")` to push data without overwriting the table
 
+## 🐞 Errors Faced & Fixes
 
-
+| Error | Fix |
+|-------|-----|
+| `ModuleNotFoundError: No module named 'psycopg2'` | Installed `psycopg2-binary` inside the virtual environment |
+| API returned but no data in DB | Ensured column names in the DataFrame match the actual DB table exactly |
+| Silent data insertion failures | Turned on SQLAlchemy debug logs and confirmed correct schema usage |
+| Missing fields in API | Programmatically added missing columns to DataFrame before insert |
