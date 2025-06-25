@@ -6,15 +6,11 @@ from datetime import datetime, timedelta
 # --- 1. Create the database engine ---
 engine = create_engine("postgresql+psycopg2://postgres:9890@localhost:5432/nyc_data")
 
-# --- 1.1: Pull unique_keys already in the DB ---
-existing_keys = pd.read_sql("SELECT unique_key FROM complaints", engine)
-existing_keys_set = set(existing_keys['unique_key'])
-
 # --- 2. Calculate the date for past 7 days ---
 seven_days_ago = (datetime.now() - timedelta(days=7)).strftime('%Y-%m-%dT%H:%M:%S')
 
 # --- 3. Build the API URL ---
-url = f"https://data.cityofnewyork.us/resource/erm2-nwe9.json?$limit=10000&$where=created_date >= \"{seven_days_ago}\""
+url = f"https://data.cityofnewyork.us/resource/erm2-nwe9.json?$where=created_date >= \"{seven_days_ago}\""
 
 # --- 4. Send the API request ---
 response = requests.get(url)
@@ -49,18 +45,15 @@ if response.status_code == 200:
     existing_columns = [col for col in relevant_columns if col in df.columns]
     df_filtered = df[existing_columns]
     
-    # --- 8. Remove rows with duplicate unique_keys ---
-    df_filtered = df_filtered[~df_filtered['unique_key'].isin(existing_keys_set)]
-
-    # --- 9. Insert only new records ---
+    # --- 8. Store filtered data to PostgreSQL ---
     if not df_filtered.empty:
         df_filtered.to_sql("complaints", engine, if_exists="append", index=False)
-        print(f"✅ Inserted {len(df_filtered)} new records.")
+        print(f"✅ Inserted {len(df_filtered)} records into PostgreSQL!")
     else:
-        print("⚠️ No new data to insert.")
+        print("⚠️ No data to insert into PostgreSQL.")
+
 else:
     print(f"❌ Failed to fetch data. Status code: {response.status_code}")
-
 
 
 
