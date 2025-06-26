@@ -1,5 +1,8 @@
-/inst.txt
-/data/
-/.venv/
-/.vscode/
+/inst.txt/
+.data/
+.venv/
+.vscode/
 /.history/
+.history/.venv/*
+/.venv/.gitignore
+
