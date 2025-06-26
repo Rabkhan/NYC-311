@@ -139,6 +139,6 @@ else:print(f"❌ Failed to fetch data. Status code: {response.status_code}")
 
     # --- 9. Convert date columns to proper format ---
     df["created_date"] = pd.to_datetime(df["created_date"], errors="coerce")
-    df["resolution_action_updated_date"] = pd.to_datetime(df["resolution_action_updated_date"], errors="coerce")
+    df["resolution_action_updated_date"] = pd.to_datetime(df["resolution_action_updated_date"], errors="coerce") 
 
 '''
